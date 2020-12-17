@@ -1,0 +1,9 @@
+---
+#
+# Install Logstash
+#
+
+- name: Install Logstash with apt
+  apt:
+   name: logstash
+   update_cache: yes

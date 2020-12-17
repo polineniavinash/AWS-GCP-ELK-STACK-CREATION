@@ -1,0 +1,18 @@
+---
+#
+# Playbook to install the ELK stack + Beats
+#
+- name: Install java, elasticsearch, logstash, kibana, metricbeat, filebeat
+  hosts: all
+  remote_user: root
+  become: yes
+  become_user: root
+
+  roles:
+  #- { role: python2 }
+  - { role: java }
+  - { role: elasticsearch }
+  - { role: logstash }
+  - { role: kibana }
+  - { role: metricbeat }
+#  - { role: filebeat }

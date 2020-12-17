@@ -1,0 +1,51 @@
+{
+  "builders": [
+    {
+        "type": "amazon-ebs",
+        "region": "us-east-2",
+        "source_ami": "ami-0d5d9d301c853a04a",
+        "instance_type": "t2.medium",
+        "ssh_username": "ubuntu",
+        "ami_name": "Packer-ELK-Master {{timestamp}}",
+        "associate_public_ip_address": true,
+        "tags": {
+            "Name": "Packer-ELK-Master"
+}
+
+  }],
+  "provisioners": [
+    {
+    "type": "shell",
+    "script": "scripts/install_ansible.sh",
+    "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+    "pause_before": "10s"
+  },
+    {
+      "type": "ansible-local",
+      "playbook_file": "../ansible/site.yml",
+      "role_paths": [
+        "../ansible/roles/java",
+        "../ansible/roles/elasticsearch",
+        "../ansible/roles/logstash",
+        "../ansible/roles/kibana",
+        "../ansible/roles/metricbeat"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/directory.sh",
+      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "pause_before": "10s"
+},
+    {
+  "type": "file",
+  "source": "Terraform_ansible/",
+  "destination": "/etc/ansible/Terraform_ansible/"
+},
+{
+"type": "file",
+"source": "Terraform_Shell_Scripts/aws_ansible.sh",
+"destination": "/etc/ansible/Terraform_ansible/aws_ansible.sh"
+}
+  ]
+}

@@ -1,0 +1,16 @@
+---
+#
+# Installing Java 8
+#
+
+# Add the Java repo
+- name: Add Oracle Java Repository
+  apt_repository: repo='ppa:webupd8team/java'
+# Accept Oracle license
+- name: Accept Java 8 License
+  debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+# Install Java
+- name: Install Java 8
+  apt:
+   name: default-jre
+   state: latest

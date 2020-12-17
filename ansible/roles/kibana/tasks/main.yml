@@ -1,0 +1,11 @@
+---
+#
+# Installing Kibana
+#
+
+# Install Kibana
+
+- name: Install Kibana with apt
+  apt:
+   name: kibana
+   update_cache: yes

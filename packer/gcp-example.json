@@ -1,0 +1,50 @@
+{
+    "builders": [
+        {
+            "type": "googlecompute",
+            "project_id": "myfirst-256611",
+            "account_file": "C:/Users/Administrator/Desktop/Avinash/GCP/account.json",
+            "zone": "us-central1-f",
+            "machine_type": "n1-standard-1",
+            "source_image": "ubuntu-1804-bionic-v20191113",
+            "image_name": "packer-elk-master",
+            "ssh_username": "ubuntu",
+            "ssh_pty": "true"
+        }
+    ],
+    "provisioners": [
+      {
+      "type": "shell",
+      "script": "scripts/install_ansible.sh",
+      "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "pause_before": "10s"
+    },
+      {
+        "type": "ansible-local",
+        "playbook_file": "../ansible/site.yml",
+        "role_paths": [
+          "../ansible/roles/java",
+          "../ansible/roles/elasticsearch",
+          "../ansible/roles/logstash",
+          "../ansible/roles/kibana",
+          "../ansible/roles/metricbeat"
+        ]
+      },
+      {
+        "type": "shell",
+        "script": "scripts/directory.sh",
+        "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
+        "pause_before": "10s"
+  },
+      {
+    "type": "file",
+    "source": "Terraform_ansible/",
+    "destination": "/etc/ansible/Terraform_ansible/"
+  },
+  {
+  "type": "file",
+  "source": "Terraform_Shell_Scripts/gcp_ansible.sh",
+  "destination": "/etc/ansible/Terraform_ansible/gcp_ansible.sh"
+  }
+    ]
+  }
