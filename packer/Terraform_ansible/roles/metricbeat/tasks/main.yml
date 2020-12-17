@@ -1,0 +1,32 @@
+---
+# Update Elasticsearch port in metricbeat config file 
+- name: Updating the config file to allow outside access
+  lineinfile:
+   destfile: /etc/metricbeat/metricbeat.yml
+   regexp: '#setup.dashboards.enabled: false'
+   line: 'setup.dashboards.enabled: true'
+
+- name: Updating the port in config file
+  lineinfile:
+   destfile: /etc/metricbeat/metricbeat.yml
+  # regexp: 'host:'
+   regexp: '^.*host: "localhost:5601"'
+   line: '  host: "{{ var_ip }}:5601"'
+
+
+# Update Elasticsearch port in config file elastic search port
+
+- name: Updating the port in config file
+  lineinfile:
+   destfile: /etc/metricbeat/metricbeat.yml
+   regexp: '^.*hosts: \["localhost:9200"\]'
+   line: '  hosts: ["{{ var_ip }}:9200"]'
+
+# Starting Metricbeat
+- pause:
+    seconds: 90
+
+- name: Starting Metricbeat
+  service:
+   name: metricbeat
+   state: restarted

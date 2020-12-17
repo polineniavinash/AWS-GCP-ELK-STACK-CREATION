@@ -1,0 +1,9 @@
+---
+#
+# Installing Metricbeat
+#
+
+- name: Install Metricbeat with apt
+  apt:
+   name: metricbeat
+   update_cache: yes

@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  remote_user: root
+  become: yes
+  become_user: root
+  vars:
+    - var_ip:
+  roles:
+    - { role: elasticsearch }
+    - { role: kibana }
+    - { role: logstash }
+    - { role: metricbeat }
