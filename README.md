@@ -23,6 +23,7 @@ This project aims to simplify the deployment of the ELK stack on cloud platforms
 
 
 git clone https://github.com/polineniavinash/AWS-GCP-ELK-STACK-CREATION.git
+
 cd AWS-GCP-ELK-STACK-CREATION
 
 
